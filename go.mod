@@ -13,7 +13,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/credentials v1.1.1
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.5.0
 	github.com/bxcodec/faker v2.0.1+incompatible
-	github.com/chaos-mesh/chaos-mesh/api/v1alpha1 v0.0.0
+	github.com/chaos-mesh/chaos-mesh/apis v0.0.0
 	github.com/chaos-mesh/k8s_dns_chaos v0.2.0
 	github.com/containerd/cgroups v1.0.2-0.20210605143700-23b51209bf7b
 	github.com/containerd/containerd v1.5.1
@@ -87,7 +87,7 @@ require (
 )
 
 replace (
-	github.com/chaos-mesh/chaos-mesh/api/v1alpha1 => ./api/v1alpha1
+	github.com/chaos-mesh/chaos-mesh/apis => ./apis
 	k8s.io/api => k8s.io/api v0.21.3
 	k8s.io/apiextensions-apiserver => k8s.io/apiextensions-apiserver v0.21.3
 	k8s.io/apimachinery => k8s.io/apimachinery v0.21.3

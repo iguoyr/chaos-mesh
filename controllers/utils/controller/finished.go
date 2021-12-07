@@ -18,7 +18,7 @@ package controller
 import (
 	"time"
 
-	"github.com/chaos-mesh/chaos-mesh/api/v1alpha1"
+	"github.com/chaos-mesh/chaos-mesh/apis/core/v1alpha1"
 )
 
 func IsChaosFinished(obj v1alpha1.InnerObject, now time.Time) bool {

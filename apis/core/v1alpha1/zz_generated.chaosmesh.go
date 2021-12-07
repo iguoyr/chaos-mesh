@@ -19,16 +19,16 @@ package v1alpha1
 
 import (
 	"encoding/json"
+	"fmt"
 	"reflect"
 	"time"
-	"fmt"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"sigs.k8s.io/controller-runtime/pkg/webhook"
-	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"k8s.io/apimachinery/pkg/runtime"
+	logf "sigs.k8s.io/controller-runtime/pkg/log"
+	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
-	gw "github.com/chaos-mesh/chaos-mesh/api/v1alpha1/genericwebhook"
+	gw "github.com/chaos-mesh/chaos-mesh/apis/v1alpha1/genericwebhook"
 )
 
 // updating spec of a chaos will have no effect, we'd better reject it
@@ -127,7 +127,7 @@ func (in *AWSChaos) DurationExceeded(now time.Time) (bool, time.Duration, error)
 }
 
 func (in *AWSChaos) IsOneShot() bool {
-	if in.Spec.Action==Ec2Restart {
+	if in.Spec.Action == Ec2Restart {
 		return true
 	}
 
@@ -397,7 +397,7 @@ func (in *GCPChaos) DurationExceeded(now time.Time) (bool, time.Duration, error)
 }
 
 func (in *GCPChaos) IsOneShot() bool {
-	if in.Spec.Action==NodeReset {
+	if in.Spec.Action == NodeReset {
 		return true
 	}
 
@@ -1332,7 +1332,7 @@ func (in *PodChaos) DurationExceeded(now time.Time) (bool, time.Duration, error)
 }
 
 func (in *PodChaos) IsOneShot() bool {
-	if in.Spec.Action==PodKillAction || in.Spec.Action==ContainerKillAction {
+	if in.Spec.Action == PodKillAction || in.Spec.Action == ContainerKillAction {
 		return true
 	}
 
@@ -1829,7 +1829,6 @@ func init() {
 		chaos: &TimeChaos{},
 		list:  &TimeChaosList{},
 	})
-
 
 	allScheduleItem.register(KindAWSChaos, &ChaosKind{
 		chaos: &AWSChaos{},

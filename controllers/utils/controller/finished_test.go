@@ -24,7 +24,7 @@ import (
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/utils/pointer"
 
-	"github.com/chaos-mesh/chaos-mesh/api/v1alpha1"
+	"github.com/chaos-mesh/chaos-mesh/apis/core/v1alpha1"
 )
 
 func makeTestPodKill(creationTime time.Time, duration *string, desiredPhase v1alpha1.DesiredPhase, records []*v1alpha1.Record) v1alpha1.InnerObject {

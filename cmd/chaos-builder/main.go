@@ -53,7 +53,7 @@ func main() {
 
 	frontendGenerator := newFrontendCodeGenerator(nil)
 
-	filepath.Walk("./api/v1alpha1", func(path string, info os.FileInfo, err error) error {
+	filepath.Walk("./apis", func(path string, info os.FileInfo, err error) error {
 		log := log.WithValues("file", path)
 
 		if err != nil {

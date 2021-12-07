@@ -2,7 +2,7 @@ module github.com/chaos-mesh/chaos-mesh/e2e-test
 
 require (
 	github.com/chaos-mesh/chaos-mesh v0.0.0-00010101000000-000000000000
-	github.com/chaos-mesh/chaos-mesh/api/v1alpha1 v0.0.0
+	github.com/chaos-mesh/chaos-mesh/apis v0.0.0
 	github.com/onsi/ginkgo v1.16.4
 	github.com/onsi/gomega v1.14.0
 	k8s.io/api v0.21.3
@@ -20,7 +20,7 @@ require (
 
 replace (
 	github.com/chaos-mesh/chaos-mesh => ../
-	github.com/chaos-mesh/chaos-mesh/api/v1alpha1 => ../api/v1alpha1
+	github.com/chaos-mesh/chaos-mesh/apis => ../apis
 	github.com/googleapis/gnostic => github.com/googleapis/gnostic v0.5.1
 	google.golang.org/grpc => google.golang.org/grpc v1.26.0
 	k8s.io/api => k8s.io/api v0.21.3

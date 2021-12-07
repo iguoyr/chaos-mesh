@@ -20,7 +20,7 @@ import (
 
 	"github.com/onsi/gomega"
 
-	"github.com/chaos-mesh/chaos-mesh/api/v1alpha1"
+	"github.com/chaos-mesh/chaos-mesh/apis/core/v1alpha1"
 )
 
 func TestAffectedNamespaces(t *testing.T) {
