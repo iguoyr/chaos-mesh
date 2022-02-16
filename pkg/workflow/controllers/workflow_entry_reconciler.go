@@ -152,6 +152,18 @@ func (it *WorkflowEntryReconciler) Reconcile(ctx context.Context, request reconc
 				Reason: "",
 			})
 
+			if workflowNeedUpdate.IsFinished() {
+				SetWorkflowCondition(&workflowNeedUpdate.Status, v1alpha1.WorkflowCondition{
+					Type:   v1alpha1.WorkflowConditionAccomplished,
+					Status: corev1.ConditionTrue,
+					Reason: v1alpha1.ManuallyFinish,
+				})
+				if workflowNeedUpdate.Status.EndTime == nil {
+					now := metav1.NewTime(time.Now())
+					workflowNeedUpdate.Status.EndTime = &now
+				}
+				it.eventRecorder.Event(&workflow, recorder.WorkflowAccomplished{})
+			}
 			if WorkflowNodeFinished(entryNodes[0].Status) {
 				SetWorkflowCondition(&workflowNeedUpdate.Status, v1alpha1.WorkflowCondition{
 					Type:   v1alpha1.WorkflowConditionAccomplished,

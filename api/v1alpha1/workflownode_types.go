@@ -60,6 +60,8 @@ type WorkflowNodeSpec struct {
 	*EmbedChaos `json:",inline,omitempty"`
 	// +optional
 	Schedule *ScheduleSpec `json:"schedule,omitempty"`
+	// +optional
+	StatusCheck *StatusCheck `json:"statuscheck,omitempty"`
 }
 
 type WorkflowNodeStatus struct {
@@ -113,6 +115,8 @@ const (
 	ConditionAccomplished   WorkflowNodeConditionType = "Accomplished"
 	ConditionDeadlineExceed WorkflowNodeConditionType = "DeadlineExceed"
 	ConditionChaosInjected  WorkflowNodeConditionType = "ChaosInjected"
+
+	ConditionStatusCheckSucceed WorkflowNodeConditionType = "StatusCheckSucceed"
 )
 
 type WorkflowNodeCondition struct {
@@ -153,6 +157,8 @@ const (
 	TaskPodPodCompleted         string = "TaskPodPodCompleted"
 	ConditionalBranchesSelected string = "ConditionalBranchesSelected"
 	RerunBySpecChanged          string = "RerunBySpecChanged"
+	StatusCheckSucceed          string = "StatusCheckSucceed"
+	StatusCheckFailed           string = "StatusCheckFailed"
 )
 
 // GenericChaosList only use to list GenericChaos by certain EmbedChaos

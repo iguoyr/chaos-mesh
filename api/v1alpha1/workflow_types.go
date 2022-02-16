@@ -22,6 +22,8 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 )
 
+const TerminateAnnotationKey = "workflow.chaos-mesh.org/terminate"
+
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:shortName=wf
 // +kubebuilder:subresource:status
@@ -68,7 +70,15 @@ type WorkflowConditionType string
 const (
 	WorkflowConditionAccomplished WorkflowConditionType = "Accomplished"
 	WorkflowConditionScheduled    WorkflowConditionType = "Scheduled"
+	WorkflowConditionTerminated   WorkflowConditionType = "Terminated"
 )
+
+func (in *Workflow) IsTerminated() bool {
+	if in.Annotations == nil || in.Annotations[TerminateAnnotationKey] != "true" {
+		return false
+	}
+	return true
+}
 
 type WorkflowCondition struct {
 	Type      WorkflowConditionType  `json:"type"`
@@ -80,11 +90,12 @@ type WorkflowCondition struct {
 type TemplateType string
 
 const (
-	TypeTask     TemplateType = "Task"
-	TypeSerial   TemplateType = "Serial"
-	TypeParallel TemplateType = "Parallel"
-	TypeSuspend  TemplateType = "Suspend"
-	TypeSchedule TemplateType = "Schedule"
+	TypeTask        TemplateType = "Task"
+	TypeSerial      TemplateType = "Serial"
+	TypeParallel    TemplateType = "Parallel"
+	TypeSuspend     TemplateType = "Suspend"
+	TypeSchedule    TemplateType = "Schedule"
+	TypeStatusCheck TemplateType = "StatusCheck"
 )
 
 func IsChaosTemplateType(target TemplateType) bool {
@@ -120,6 +131,8 @@ type Template struct {
 	// Schedule describe the Schedule(describing scheduled chaos) to be injected with chaos nodes. Only used when Type is TypeSchedule.
 	// +optional
 	Schedule *ChaosOnlyScheduleSpec `json:"schedule,omitempty"`
+	// +optional
+	StatusCheck *StatusCheck `json:"StatusCheck,omitempty"`
 }
 
 // ChaosOnlyScheduleSpec is very similar with ScheduleSpec, but it could not schedule Workflow
@@ -157,6 +170,48 @@ type Task struct {
 
 	// TODO: maybe we could specify parameters in other ways, like loading context from file
 }
+
+type StatusCheckMode string
+
+const (
+	ContinuousStatusCheck  StatusCheckMode = "Continuous"
+	SynchronousStatusCheck StatusCheckMode = "Synchronous"
+)
+
+type StatusCheckType string
+
+const (
+	HTTPStatusCheckType StatusCheckType = "HTTP"
+)
+
+type StatusCheck struct {
+	Type           StatusCheckType `json:"type"`
+	Mode           StatusCheckMode `json:"mode"`
+	Timeout        int             `json:"timeout"`
+	FinishIfFailed bool            `json:"finishIfFailed"`
+	Interval       int             `json:"interval"`
+	Retry          int             `json:"retry"`
+
+	EmbedStatusCheck `json:",inline"`
+}
+
+type EmbedStatusCheck struct {
+	// +optional
+	HTTPStatusCheck *HTTPStatusCheck `json:"http,omitempty"`
+}
+
+type HTTPStatusCheck struct {
+	Url          string            `json:"url"`
+	Method       string            `json:"method"`
+	Body         map[string]string `json:"body"`
+	ResponseCode int               `json:"responseCode"`
+	// TODO ResponseBody
+}
+
+// Reasons
+const (
+	ManuallyFinish string = "ManuallyFinish"
+)
 
 // +kubebuilder:object:root=true
 type WorkflowList struct {

@@ -92,6 +92,7 @@ func (it *ParallelNodeReconciler) Reconcile(ctx context.Context, request reconci
 
 		nodeNeedUpdate.Status.FinishedChildren = nil
 		for _, finishedChild := range finishedChildren {
+			// TODO 识别出 failedChildren，然后判断是否需要结束？
 			nodeNeedUpdate.Status.FinishedChildren = append(nodeNeedUpdate.Status.FinishedChildren,
 				corev1.LocalObjectReference{
 					Name: finishedChild.Name,
